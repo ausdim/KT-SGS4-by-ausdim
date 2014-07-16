@@ -11,11 +11,8 @@
  */
 #include <linux/battery/sec_battery.h>
 
-//KT Specifics
-unsigned int gbatt_lvl_low = 0;
-unsigned int gbatt_lvl_high = 0;
-unsigned int gmhz_lvl_low = 0;
-unsigned int gmhz_lvl_high = 0;
+unsigned int gbatt_lvl = 0;
+unsigned int gmhz_lvl = 0;
 unsigned int gbatt_soc = 0;
 unsigned int gbatt_chg = 0;
 unsigned int gdisable_chrg = 0;
@@ -1515,12 +1512,10 @@ void sec_bat_reset_discharge(struct sec_battery_info *battery)
 	discharge_cnt = 0;
 }
 
-void set_batt_mhz_info(unsigned int batt_lvl_low, unsigned int batt_lvl_high, unsigned int mhz_lvl_low, unsigned int mhz_lvl_high, unsigned int disable_chrg)
+void set_batt_mhz_info(unsigned int batt_lvl, unsigned int mhz_lvl, unsigned int disable_chrg)
 {
-	gbatt_lvl_low = batt_lvl_low;
-	gbatt_lvl_high = batt_lvl_high;
-	gmhz_lvl_low = mhz_lvl_low;
-	gmhz_lvl_high = mhz_lvl_high;
+	gbatt_lvl = batt_lvl;
+	gmhz_lvl = mhz_lvl;
 	gdisable_chrg = disable_chrg;
 }
 
@@ -1530,18 +1525,13 @@ unsigned int get_batt_level(void)
 	if (gdisable_chrg == 1 && (gbatt_chg > 1))
 		return Lscreen_off_scaling_mhz_orig;
 
-	if (gbatt_lvl_low > 0 && gmhz_lvl_low > 0)
+	if (gbatt_lvl > 0 && gmhz_lvl > 0)
 	{
-		if (gbatt_soc <= gbatt_lvl_low)
-			return gmhz_lvl_low;
+		if (gbatt_soc <= gbatt_lvl)
+			return gmhz_lvl;
 
 	}
-	if (gbatt_lvl_high > 0 && gmhz_lvl_high > 0)
-	{
-		if (gbatt_soc <= gbatt_lvl_high)
-			return gmhz_lvl_high;
-	}
-	if ((gbatt_lvl_low > 0 && gbatt_soc > gbatt_lvl_low) || (gmhz_lvl_high > 0 && gbatt_soc > gbatt_lvl_high))
+	if (gbatt_lvl > 0 && gbatt_soc > gbatt_lvl)
 		return Lscreen_off_scaling_mhz_orig;
 	else
 		return 0;

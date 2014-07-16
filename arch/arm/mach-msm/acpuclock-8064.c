@@ -25,7 +25,7 @@
 
 //KT Specifics
 // enable_oc
-static unsigned int isenable_oc = 0;
+static unsigned int isenable_oc = 1;
 
 static struct hfpll_data hfpll_data __initdata = {
 	.mode_offset = 0x00,
@@ -40,7 +40,7 @@ static struct hfpll_data hfpll_data __initdata = {
 	.low_vdd_l_max = 22,
 	.nom_vdd_l_max = 42,
 	.vdd[HFPLL_VDD_NONE] =       0,
-	.vdd[HFPLL_VDD_LOW]  =  945000,
+	.vdd[HFPLL_VDD_LOW]  =  925000,
 	.vdd[HFPLL_VDD_NOM]  = 1050000,
 	.vdd[HFPLL_VDD_HIGH] = MAX_VDD_MEM_DIG,
 };
@@ -797,7 +797,7 @@ static struct attribute *acpuclock8064_attributes[] = {
 
 static struct attribute_group acpuclock8064_attr_group = {
 	.attrs = acpuclock8064_attributes,
-	.name = "ktoonsez",
+	.name = "ausdim",
 };
 
 static int __init acpuclk_8064_probe(struct platform_device *pdev)
