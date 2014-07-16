@@ -65,6 +65,7 @@ kernel/config_data.h
 scripts/recordmcount
 kernel/usr/*
 Package/*
+arch/arm/include/generated/
 firmware/*.gen.S
 firmware/*.fw
 firmware/tsp_atmel/*.gen.S
@@ -132,6 +133,8 @@ GTAGS
 arch/arm/boot/compressed/ashldi3.S
 arch/arm/boot/compressed/piggy.xzkern
 
+/My-Scripts
+/AUSDIM-RAMFS
 *.orig
 *~
 \#*#
