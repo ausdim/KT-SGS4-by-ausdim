@@ -317,6 +317,7 @@ static int sec_bat_get_cable_from_extended_cable_type(
 		break;
 	}
 
+#ifdef CONFIG_FORCE_FAST_CHARGE
 	/* We are in basic Fast Charge mode, so we substitute AC to USB
 	   levels */
 	if (force_fast_charge == FAST_CHARGE_FORCE_AC) {
@@ -361,6 +362,7 @@ static int sec_bat_get_cable_from_extended_cable_type(
 				break;
 		}
 	}
+#endif
 
 	if (charge_current_max == 0) {
 		charge_current_max =
