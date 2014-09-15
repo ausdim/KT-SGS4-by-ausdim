@@ -586,7 +586,7 @@ struct zs_pool *zs_create_pool(const char *name, gfp_t flags)
 		return NULL;
 
 	ovhd_size = roundup(sizeof(*pool), PAGE_SIZE);
-	pool = kzalloc(ovhd_size, GFP_KERNEL);
+	pool = kzalloc(ovhd_size, flags);
 	if (!pool)
 		return NULL;
 
@@ -606,7 +606,6 @@ struct zs_pool *zs_create_pool(const char *name, gfp_t flags)
 
 	}
 
-	pool->flags = flags;
 	pool->name = name;
 
 	return pool;
@@ -642,7 +641,7 @@ EXPORT_SYMBOL_GPL(zs_destroy_pool);
  * otherwise 0.
  * Allocation requests with size > ZS_MAX_ALLOC_SIZE will fail.
  */
-unsigned long zs_malloc(struct zs_pool *pool, size_t size)
+unsigned long zs_malloc(struct zs_pool *pool, size_t size, gfp_t flags)
 {
 	unsigned long obj;
 	struct link_free *link;
@@ -664,7 +663,7 @@ unsigned long zs_malloc(struct zs_pool *pool, size_t size)
 
 	if (!first_page) {
 		spin_unlock(&class->lock);
-		first_page = alloc_zspage(class, pool->flags);
+		first_page = alloc_zspage(class, flags);
 		if (unlikely(!first_page))
 			return 0;
 

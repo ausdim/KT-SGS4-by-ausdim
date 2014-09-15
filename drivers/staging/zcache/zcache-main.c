@@ -704,7 +704,6 @@ static struct zv_hdr *zv_create(struct zs_pool *pool, uint32_t pool_id,
 
         BUG_ON(!irqs_disabled());
         BUG_ON(chunks >= NCHUNKS);
-        handle = (void *)zs_malloc(pool, size);
         if (!handle)
                 goto out;
         atomic_inc(&zv_curr_dist_counts[chunks]);
