@@ -688,7 +688,7 @@ get_next:
 			allocated = true;
 			blkaddr = dn.data_blkaddr;
 		}
-		/* Give more consecutive addresses for the read ahead */
+		/* Give more consecutive addresses for the readahead */
 		if (blkaddr == (bh_result->b_blocknr + ofs)) {
 			ofs++;
 			dn.ofs_in_node++;
@@ -715,7 +715,7 @@ static int f2fs_read_data_page(struct file *file, struct page *page)
 	struct inode *inode = page->mapping->host;
 	int ret;
 
-	/* If the file has inline data, try to read it directlly */
+	/* If the file has inline data, try to read it directly */
 	if (f2fs_has_inline_data(inode))
 		ret = f2fs_read_inline_data(inode, page);
 	else

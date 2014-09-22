@@ -528,7 +528,7 @@ fail:
 }
 
 /*
- * It only removes the dentry from the dentry page,corresponding name
+ * It only removes the dentry from the dentry page, corresponding name
  * entry in name page does not need to be touched during deletion.
  */
 void f2fs_delete_entry(struct f2fs_dir_entry *dentry, struct page *page,
