@@ -17,7 +17,10 @@
  * Provides the maximum size that LZ4 may output in a "worst case" scenario
  * (input data not compressible)
  */
-#define LZ4_COMPRESSBOUND(isize) (isize + ((isize)/255) + 16)
+static inline size_t lz4_compressbound(size_t isize)
+{
+	return isize + (isize / 255) + 16;
+}
 
 /*
  * lz4_compress()

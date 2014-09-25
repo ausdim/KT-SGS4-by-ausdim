@@ -139,7 +139,7 @@ static int lz4_uncompress(const char *source, char *dest, int osize)
 		LZ4_COPYSTEP(ref, op);
 	}
 	cpy = op + length - (STEPSIZE - 4);
-	if (cpy > oend - COPYLENGTH) {
+		if (cpy > (oend - COPYLENGTH)) {
 
 		/* Error: request to write beyond destination buffer */
 		if (cpy > oend)
@@ -249,7 +249,7 @@ static int lz4_uncompress_unknownoutputsize(const char *source, char *dest,
 		}
 
 		/* copy repeated sequence */
-		if (unlikely(op - ref < STEPSIZE)) {
+		if (unlikely((op - ref) < STEPSIZE)) {
 #if LZ4_ARCH64
 			size_t dec64 = dec64table[op - ref];
 #else
