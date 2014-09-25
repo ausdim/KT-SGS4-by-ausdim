@@ -33,7 +33,7 @@
 #include <linux/string.h>
 #include "tmem.h"
 
-#include "../zsmalloc/zsmalloc.h"
+#include <linux/zsmalloc.h>
 
 #if (!defined(CONFIG_CLEANCACHE) && !defined(CONFIG_FRONTSWAP))
 #error "zcache is useless without CONFIG_CLEANCACHE or CONFIG_FRONTSWAP"
@@ -983,7 +983,7 @@ int zcache_new_client(uint16_t cli_id)
                 goto out;
         cli->allocated = 1;
 #ifdef CONFIG_FRONTSWAP
-        cli->zspool = zs_create_pool("zcache", ZCACHE_GFP_MASK);
+        cli->zspool = zs_create_pool(ZCACHE_GFP_MASK);
         if (cli->zspool == NULL)
                 goto out;
 #endif
