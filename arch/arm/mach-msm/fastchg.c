@@ -409,7 +409,7 @@ int force_fast_charge_init(void)
 	/* Default USB charge level to 460mA/h    */
 	usb_charge_level  = USB_CHARGE_460;
 	/* Allow only values in list by default   */
-	failsafe          = FAIL_SAFE_ENABLED;
+	failsafe          = FAIL_SAFE_DISABLED;
 
         force_fast_charge_kobj =
 		kobject_create_and_add("fast_charge", kernel_kobj);
