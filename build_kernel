@@ -37,7 +37,7 @@ BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 
 USER_DEFCONFIG=0ghost_defconfig
 
-VARIANT_DEFCONFIG=jf_INT_defconfig
+VARIANT_DEFCONFIG=jf_INTL_defconfig
 
 SELINUX_DEFCONFIG=selinux_defconfig
 
