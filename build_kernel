@@ -1,0 +1,117 @@
+#!/bin/bash
+# Kernel Build Script by Ghost44
+
+
+BUILD_USER="$USER"
+
+DATE=`date +%b-%d-%Y-%T`
+
+TOOLCHAIN_DIR=/home/ghost44/android/toolchains
+
+
+# Toolchains
+
+###Stock
+
+#BUILD_CROSS_COMPILE=$TOOLCHAIN_DIR/arm-eabi-4.7/bin/arm-eabi-
+
+#BUILD_CROSS_COMPILE=$TOOLCHAIN_DIR/arm-eabi-4.8/bin/arm-eabi-
+
+###linaro cortex a15 optimized
+
+#BUILD_CROSS_COMPILE=$TOOLCHAIN_DIR/arm-cortex_a15-linux-gnueabihf-linaro_4.7.4-2014.06bin/arm-cortex_a15-linux-gnueabihf-
+
+#BUILD_CROSS_COMPILE=$TOOLCHAIN_DIR/arm-cortex_a15-linux-gnueabihf-linaro_4.8.4-2014.11/bin/arm-cortex_a15-linux-gnueabihf-
+
+BUILD_CROSS_COMPILE=$TOOLCHAIN_DIR/arm-cortex_a15-linux-gnueabihf-linaro_4.9.3-2014.11/bin/arm-cortex_a15-linux-gnueabihf-
+
+###Linaro
+
+#BUILD_CROSS_COMPILE=$TOOLCHAIN_DIR/arm-linux-gnueabi-linaro_4.8.4-2014.11/bin/arm-eabi-
+
+#BUILD_CROSS_COMPILE=$TOOLCHAIN_DIR/arm-linux-gnueabi-linaro_4.9.3-2014.11/bin/arm-eabi-
+
+
+
+BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
+
+USER_DEFCONFIG=0ghost_defconfig
+
+VARIANT_DEFCONFIG=jf_INT_defconfig
+
+SELINUX_DEFCONFIG=selinux_defconfig
+
+SELINUX_LOG_DEFCONFIG=selinux_log_defconfig
+
+
+BUILD_KERNEL()
+{
+        echo ""
+        echo "=============================================="
+        echo "START: MAKE CLEAN"
+        echo "=============================================="
+        echo ""
+
+        make clean
+
+        echo "=============================================="
+        echo "CPU: $BUILD_JOB_NUMBER"
+        echo
+        echo "BUILD USER: $BUILD_USER"
+        echo
+        echo "TOOLCHAIN: $BUILD_CROSS_COMPILE"
+        echo
+        echo "START: BUILD_KERNEL"
+        echo "=============================================="
+
+        export ARCH=arm
+
+        export CROSS_COMPILE=$BUILD_CROSS_COMPILE
+
+        make $USER_DEFCONFIG VARIANT_DEFCONFIG=$VARIANT_DEFCONFIG SELINUX_DEFCONFIG=$SELINUX_DEFCONFIG SELINUX_LOG_DEFCONFIG=$SELINUX_LOG_DEFCONFIG
+
+#       make CONFIG_NO_ERROR_ON_MISMATCH=y -j$BUILD_JOB_NUMBER
+
+#       make -j2
+
+        make -j$BUILD_JOB_NUMBER
+
+        echo
+        echo "================================="
+        echo "END: BUILD_KERNEL"
+        echo "================================="
+        echo
+
+
+        mkdir ../Ghost-FULL-OUTPUT_$DATE
+	echo "================================="
+	echo "COPY: copy zImage to Kernel dir"
+	cp arch/arm/boot/zImage ../Ghost-FULL-OUTPUT_$DATE
+        echo "COPY: copy MODULES to Kernel dir"
+        echo "================================="
+	find . -name "*.ko" -exec cp {} ../Ghost-FULL-OUTPUT_$DATE \;
+}
+
+
+
+
+# MAIN FUNCTION
+rm -rf ./build.log
+(
+        START_TIME=`date +%s`
+        BUILD_DATE=`date +%m-%d-%Y`
+        BUILD_KERNEL
+        END_TIME=`date +%s`
+        let "ELAPSED_TIME=$END_TIME-$START_TIME"
+        echo "Total compile time is $ELAPSED_TIME seconds"
+) 2>&1 | tee -a ./build.log
+
+
+# Credits:
+# Samsung
+# google
+# osm0sis
+# cyanogenmod
+# kylon
+# thehacker911
+
