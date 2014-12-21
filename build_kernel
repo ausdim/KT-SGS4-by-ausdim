@@ -83,13 +83,13 @@ BUILD_KERNEL()
         echo
 
 
-        mkdir ../Ghost-FULL-OUTPUT_$DATE
+        mkdir ../OUTPUT-Ghost-FULL_$DATE
 	echo "================================="
 	echo "COPY: copy zImage to Kernel dir"
-	cp arch/arm/boot/zImage ../Ghost-FULL-OUTPUT_$DATE
+	cp arch/arm/boot/zImage ../OUTPUT-Ghost-FULL_$DATE
         echo "COPY: copy MODULES to Kernel dir"
         echo "================================="
-	find . -name "*.ko" -exec cp {} ../Ghost-FULL-OUTPUT_$DATE \;
+	find . -name "*.ko" -exec cp {} ../OUTPUT-Ghost-FULL_$DATE \;
 }
 
 
